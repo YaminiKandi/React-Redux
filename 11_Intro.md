@@ -23,11 +23,33 @@
     - Eg: user authentication status
     - Requires 'prop chains/prop drilling'
 
-    
+#### Redux Vs React Context:
+* React context aslo deals with multiple components
+* Then why do we need Redux?
+    - React Context has potential disadvantages
+    - We can use both in single application
+
+* Disadvantages:
+    - we cant have complex setup / management (In more complex apps, managing React Context can lead to deeply nested JSX code and/or huge `Context Provider` components)
+    - performance (React Context is not optimized for high frequency state changes)
+
+#### How Redux Works?
+* Redux means having one `Central Data(state) Store`
+* We have data in that store, so that we can use it from inside our components
+* Components dont directly manipulate the data in the store, instead we use a concept called reducers i.e., reducer function which mutates the store data
+* We connect the components and reducers by trigger, we have actions and components dispatch the actions
+* An action is a simple javascript object, which describes the kind of operation the reducers should perform. 
+
 #### Redux is for javascript apps:
 * Redux is not tied to react
 * It can be used with react, angular, vue or even vanilla javascript
 * Redux is a library for javascript applications
+
+#### Redux is predictable:
+* React is a state container, the state of an application can change
+* Example - todolist app - item (pending) -> item (completed)
+* In redux, all state transitions are explicit and it is possible to keep track of them 
+* The changes to our application's state become predictable
 
 #### Redux is a state container:
 * Redux stores the state of our application
@@ -58,8 +80,3 @@ state = {
 }
 ```
 
-#### Redux is predictable:
-* React is a state container, the state of an application can change
-* Example - todolist app - item (pending) -> item (completed)
-* In redux, all state transitions are explicit and it is possible to keep track of them 
-* The changes to our application's state become predictable

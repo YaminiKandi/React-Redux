@@ -140,7 +140,6 @@ const store = configureStore({
 useSelector - used for accessing values of our states
 useDispatch - used to modify values of our states
 
-
 #### Summary:
 1. Create a Redux store with configureStore
     - configureStore accepts a reducer function as a named argument
@@ -158,3 +157,98 @@ useDispatch - used to modify values of our states
 4. Use the React Redux `useSelector/useDispatch` hooks in React components
     - Read data from the store with the `useSelector` hook
     - Get the dispatch function with the `useDispatch` hook, and dispatch actions as needed
+
+#### redux-demo.js (older method)
+* Create a redux-demo.js file in an empty folder
+* Run it with node JS, because node JS allows us to run JavaScript outside the browser
+* Run `npm init -y`
+
+```json
+// package.json
+{
+  "name": "redux_practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "redux-demo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+```
+
+* Now install redux `npm install redux`
+
+#### Reducer Function:
+* It is a standard JavaScript Function, but it will be called by the Redux Library and it always recieve two pieces/parameters of input
+* Inputs - Old State + Dispatched Action
+* Output - New State Object
+* Basically, it should be a pure function i.e., same input leads to same output and no side effects inside of the function 
+* We must not send a HTTP request or write something to local storage or fetch something from local storage there.
+
+```js
+const redux = require('redux')
+// For importing redux
+
+const counterReducer = (state = {counter: 0}, action) => {
+    return {
+        counter: state.counter + 1
+    };
+}
+// Reducer Function
+
+const store = redux.createStore(counterReducer);
+// even if it is showing createStore is deprecated
+// we can use it
+const counterSubscriber = () => {
+    const latestState = store.getState()
+    // getState() is a method which is available on the store created with createStore
+    console.log(latestState)
+}
+
+store.subscribe(counterSubscriber)
+// we dont execute counterSubscriber and also counterReducer
+// because these will be executed by redux
+
+store.dispatch({ type: 'increment' })
+
+// run `node redux-demo.js` (file name)
+// { counter: 2 }
+```
+
+```js
+const redux = require('redux')
+
+const counterReducer = (state = {counter: 0}, action) => {
+    if (action.type === 'increment') {
+        return {
+            counter: state.counter + 1
+        };
+    }
+    if (action.type === 'decrement') {
+        return {
+            counter: state.counter - 1
+        }
+    }
+    return state
+}
+
+const store = redux.createStore(counterReducer);
+const counterSubscriber = () => {
+    const latestState = store.getState()
+    console.log(latestState)
+}
+
+store.subscribe(counterSubscriber)
+store.dispatch({ type: 'increment' }) // { counter: 1 }
+store.dispatch({ type: 'decrement' }) // { counter: 0 }
+```
+
+**createSlice:** accepts an object of reducer functions, a slice name, and an initial state value, and automatically generates a slice reducer with corresponding action creators and action types.
+
+**configureStore:** wraps createStore to provide simplified configuration options and good defaults. It can automatically combine your slice reducers, adds whatever Redux middleware you supply, includes redux-thunk by default, and enables use of the Redux DevTools Extension.
+
+#### Multiple Slices:
+* Can create multiple slices in one component, but it will have same configure store
